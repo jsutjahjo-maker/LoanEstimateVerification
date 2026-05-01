@@ -19,7 +19,7 @@ This application is to verify the Loan Estimate document by comparing:
 2. Install the app dependencies:
 
    ```powershell
-   python.exe -m pip install -r final_project\requirements.txt
+   python.exe -m pip install -r LoanEstimateVerification\requirements.txt
    ```
 
 3. Set your OpenAI API key (optional for fallback verification):
@@ -31,7 +31,7 @@ This application is to verify the Loan Estimate document by comparing:
 4. Run the app:
 
    ```powershell
-   python.exe final_project\app.py
+   python.exe LoanEstimateVerification\app.py
    ```
 
 5. Visit `http://127.0.0.1:5000`
