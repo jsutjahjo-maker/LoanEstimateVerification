@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loan Estimate Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background: #f4f6fb;
+            color: #1f2937;
+        }
+
+        .page {
+            max-width: 920px;
+            margin: auto;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 14px;
+            box-shadow: 0 14px 46px rgba(15, 23, 42, 0.08);
+        }
+
+        input[type="file"] {
+            width: 100%;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.95rem 1.6rem;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .alert {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 16px;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+        }
+
+        pre {
+            background: #111827;
+            color: #d1d5db;
+            padding: 1rem;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        .summary {
+            padding: 18px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            background: #f8fafc;
+            margin-top: 1.5rem;
+        }
+
+        a.download-link {
+            color: #2563eb;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <h1>Loan Estimate Verification</h1>
+        <p>Upload a Loan Estimate PDF and an Excel/CSV file with <code>Label</code> and <code>Value</code> columns. The
+            app compares values and reports discrepancies in JSON format.</p>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert">
+            {% for message in messages %}
+            <div>{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <form method="post" enctype="multipart/form-data">
+            <div>
+                <label for="pdf_file"><strong>Loan Estimate PDF</strong></label><br />
+                <input type="file" id="pdf_file" name="pdf_file" accept=".pdf" required />
+            </div>
+            <div style="margin-top: 1rem;">
+                <label for="spreadsheet_file"><strong>Excel or CSV file</strong></label><br />
+                <input type="file" id="spreadsheet_file" name="spreadsheet_file" accept=".xls,.xlsx,.csv" required />
+            </div>
+            <div style="margin-top: 1.5rem;">
+                <button type="submit">Compare and Generate JSON</button>
+            </div>
+        </form>
+
+        {% if result %}
+        <div class="summary">
+            <h2>Results</h2>
+            <p><strong>Total rows:</strong> {{ result.summary.total_rows }}</p>
+            <p><strong>Matched:</strong> {{ result.summary.matched }}</p>
+            <p><strong>Unmatched:</strong> {{ result.summary.unmatched }}</p>
+            <p><a class="download-link" href="{{ url_for('download', filename=download_name) }}">Download JSON
+                    result</a></p>
+        </div>
+
+        <h3>Preview</h3>
+        <pre>{{ result | tojson(indent=2) }}</pre>
+        {% endif %}
+    </div>
+</body>
+
+</html>
