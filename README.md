@@ -37,6 +37,9 @@ This application is to verify the Loan Estimate document by comparing:
 
 5. Visit `http://127.0.0.1:5000`
 
+6. Sample Screen
+   <img width="710" height="787" alt="image" src="https://github.com/user-attachments/assets/8f0daf44-dbdc-4df9-a761-5e402dcc8fe2" />
+
 ## Notes
 
 - The app uses direct PDF text matching first.
